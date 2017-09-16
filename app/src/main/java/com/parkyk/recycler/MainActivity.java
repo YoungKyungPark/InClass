@@ -1,9 +1,14 @@
 package com.parkyk.recycler;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ProgressBar;
+
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 /**
  * 리싸이클러뷰를 이용한 리스트 처리 구성요소
@@ -32,5 +37,87 @@ public class MainActivity extends AppCompatActivity {
     public void  test()
     {
         String src = "{\"amt\":100000, \"sender\":\"홍길동\"}";
+        BankModel1 bankModel1 = new Gson().fromJson(src,BankModel1.class);
+        Log.i("SH",bankModel1.getSender()+",  "+bankModel1.getAmt());
+
+        src = "{\"code\":1, \"body\":{\"amt\":100000, \"sender\":\"홍길동\"}}\n";
+        BankModel2 bankModel2 = new Gson().fromJson(src,BankModel2.class);
+        Log.i("SH",bankModel2.body.getSender()+",  "+bankModel2.body.getAmt());
+
+        src = "{\"code\":1, \"body\":[{\"amt\":100000, \"sender\":\"홍길동\"},{\"amt\":3000, \"sender\":\"종로5가\"}]}";
+        BankModel3 bankModel3 = new Gson().fromJson(src,BankModel3.class);
+        for(BankModel1 bank : bankModel3.getBody())
+        {
+            Log.i("SH",bank.getSender()+",  "+bank.getAmt());
+        }
+
+
+
+
+    }
+
+    class BankModel3
+    {
+        int code;
+        ArrayList<BankModel1> body;
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public ArrayList<BankModel1> getBody() {
+            return body;
+        }
+
+        public void setBody(ArrayList<BankModel1> body) {
+            this.body = body;
+        }
+    }
+
+    class BankModel2
+    {
+        int code;
+        BankModel1 body;
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public BankModel1 getBody() {
+            return body;
+        }
+
+        public void setBody(BankModel1 body) {
+            this.body = body;
+        }
+    }
+    class BankModel1
+    {
+        int amt;
+        String sender;
+
+        public int getAmt() {
+            return amt;
+        }
+
+        public void setAmt(int amt) {
+            this.amt = amt;
+        }
+
+        public String getSender() {
+            return sender;
+        }
+
+        public void setSender(String sender) {
+            this.sender = sender;
+        }
     }
 }
